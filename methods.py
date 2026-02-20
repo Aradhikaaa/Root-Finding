@@ -13,20 +13,24 @@ class methods:
         if f(x1)*f(x2) > 0:
            
             print("You have not chosen a valid interval")
+            return None, None
 
         else:
             a = x1
             b = x2
-            while abs((b-a)/c) > tol:
+            while abs((b-a)/max(abs(c),1e-16)) > tol:
                 n += 1
                 c = (a + b)/2
+
+                error = abs((b-a)/max(abs(c),1e-16))
+
+                print("Iter", n, ": interval = [", a, ",", b, "]", ", c =", c,", f(c) =", f(c),", error =", error)
+
                 if f(c) == 0:
-                    print("The root of the function is: ", c)
+                    break
                 if f(a)*f(c) < 0:
-                    print("The root lies between: ", a, "and", c , "so we continue the search")
                     b = c
                 else:
-                    print("The root lies between: ", c, "and", b , "so we continue the search")
                     a = c
 
         return n,c
@@ -35,10 +39,11 @@ class methods:
     def newton(self,f,df,x0,tol):
         delta_x = f(x0)/df(x0)
         n=0
-        while abs((delta_x)/x0) > tol:
+        while abs((delta_x)/max(abs(x0), 1e-16)) > tol:
             n +=1
             x1 = x0 - delta_x
-            print("The root is: ", x1)
+            error = abs((delta_x)/max(abs(x1), 1e-16))
+            print("Iter", n, ": x =", x1, ", f(x) =", f(x1), ", f'(x) =", df(x1),", error =", error)
             delta_x = f(x1)/df(x1)
             x0 = x1
         return n,x0
