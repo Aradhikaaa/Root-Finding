@@ -42,9 +42,10 @@ class methods:
         while abs((delta_x)/max(abs(x0), 1e-16)) > tol:
             n +=1
             x1 = x0 - delta_x
-            error = abs((delta_x)/max(abs(x1), 1e-16))
+            error = abs((delta_x)/max(abs(x0), 1e-16))
             print("Iter", n, ": x =", x1, ", f(x) =", f(x1), ", f'(x) =", df(x1),", error =", error)
             delta_x = f(x1)/df(x1)
             x0 = x1
+        print(f"Converged! Final error = {abs(delta_x/max(abs(x0), 1e-16)):.3e}")
         return n,x0
 
